@@ -3,41 +3,117 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Modal Manager Example</title>
+  <title>Modal Manager Demo</title>
   <style>
+    :root {
+      --primary-color: #3b82f6;
+      --primary-hover: #2563eb;
+      --text-color: #1f2937;
+      --text-light: #6b7280;
+      --border-color: #e5e7eb;
+      --bg-color: #ffffff;
+      --bg-light: #f9fafb;
+      --shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+      --radius: 6px;
+      --transition: all 0.2s ease;
+      --red: #ef4444;
+      --green: #10b981;
+      --yellow: #f59e0b;
+    }
+    
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+    
     body {
-      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
       line-height: 1.6;
-      max-width: 800px;
+      color: var(--text-color);
+      background-color: var(--bg-light);
+      padding: 0;
+      max-width: 100%;
+      overflow-x: hidden;
+    }
+    
+    .container {
+      max-width: 900px;
       margin: 0 auto;
-      padding: 20px;
-      color: #333;
+      padding: 2rem;
+      background-color: var(--bg-color);
+      box-shadow: var(--shadow);
+      border-radius: var(--radius);
+      margin-top: 2rem;
+      margin-bottom: 2rem;
     }
     
     h1 {
-      border-bottom: 2px solid #f0f0f0;
-      padding-bottom: 10px;
-      margin-bottom: 20px;
+      font-size: 2.25rem;
+      margin-bottom: 1.5rem;
+      color: var(--text-color);
+      border-bottom: 2px solid var(--border-color);
+      padding-bottom: 0.75rem;
     }
     
-    .button-group {
-      margin: 20px 0;
+    h2 {
+      font-size: 1.5rem;
+      margin: 2rem 0 1rem;
+      color: var(--text-color);
     }
     
-    button {
-      padding: 10px 15px;
-      background: #4a90e2;
+    p {
+      margin-bottom: 1.25rem;
+      color: var(--text-light);
+    }
+    
+    .btn-group {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.75rem;
+      margin: 2rem 0;
+    }
+    
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      padding: 0.5rem 1.25rem;
+      background-color: var(--primary-color);
       color: white;
       border: none;
-      border-radius: 4px;
+      border-radius: var(--radius);
       cursor: pointer;
-      margin-right: 10px;
-      font-size: 14px;
-      transition: background-color 0.2s;
+      font-weight: 500;
+      font-size: 0.875rem;
+      transition: var(--transition);
+      height: 2.5rem;
+      text-decoration: none;
     }
     
-    button:hover {
-      background: #3a80d2;
+    .btn:hover {
+      background-color: var(--primary-hover);
+      transform: translateY(-1px);
+    }
+    
+    .btn.secondary {
+      background-color: white;
+      color: var(--text-color);
+      border: 1px solid var(--border-color);
+    }
+    
+    .btn.secondary:hover {
+      background-color: var(--bg-light);
+    }
+    
+    .feature-list {
+      margin: 1.5rem 0;
+      padding-left: 1.25rem;
+    }
+    
+    .feature-list li {
+      margin-bottom: 0.5rem;
+      color: var(--text-light);
     }
     
     /* Modal Styles */
@@ -48,178 +124,291 @@
       left: 0;
       right: 0;
       bottom: 0;
-      background-color: rgba(0, 0, 0, 0.5);
+      background-color: rgba(0, 0, 0, 0.4);
       z-index: 1000;
-      backdrop-filter: blur(2px);
+      backdrop-filter: blur(3px);
+      align-items: center;
+      justify-content: center;
+      overflow: auto;
+      padding: 1rem;
     }
     
     .modal-content {
       position: relative;
       background-color: white;
-      margin: 10% auto;
-      padding: 25px;
-      width: 80%;
-      max-width: 500px;
-      border-radius: 8px;
-      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+      max-width: 550px;
+      width: 100%;
+      border-radius: var(--radius);
+      box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.2);
+      margin: 2rem auto;
+      overflow: hidden;
+      animation: modalSlideIn 0.25s ease-out;
+    }
+    
+    @keyframes modalSlideIn {
+      from {
+        transform: translateY(-10px);
+        opacity: 0;
+      }
+      to {
+        transform: translateY(0);
+        opacity: 1;
+      }
+    }
+    
+    .modal-header {
+      padding: 1.25rem 1.5rem;
+      border-bottom: 1px solid var(--border-color);
+    }
+    
+    .modal-body {
+      padding: 1.5rem;
+    }
+    
+    .modal-footer {
+      padding: 1rem 1.5rem;
+      border-top: 1px solid var(--border-color);
+      display: flex;
+      justify-content: flex-end;
+      gap: 0.75rem;
     }
     
     .modal-close {
       position: absolute;
-      top: 15px;
-      right: 15px;
+      top: 0.75rem;
+      right: 0.75rem;
       cursor: pointer;
-      font-size: 24px;
-      color: #999;
-      transition: color 0.2s;
+      font-size: 1.5rem;
+      line-height: 1;
+      width: 2rem;
+      height: 2rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 50%;
+      background: transparent;
+      transition: var(--transition);
+      border: none;
+      color: var(--text-light);
+      padding: 0;
+      z-index: 1;
     }
     
     .modal-close:hover {
-      color: #333;
+      background-color: rgba(0, 0, 0, 0.05);
+      color: var(--text-color);
+    }
+    
+    /* Button in footer should look like a regular button */
+    .modal-footer .modal-close {
+      position: static;
+      width: auto;
+      height: auto;
+      font-size: 0.875rem;
+      padding: 0.5rem 1.25rem;
+      border-radius: var(--radius);
+      background-color: white;
+      color: var(--text-color);
+      border: 1px solid var(--border-color);
+      display: inline-flex;
+    }
+    
+    .modal-footer .modal-close:hover {
+      background-color: var(--bg-light);
     }
     
     /* Form Styles */
-    form div {
-      margin-bottom: 15px;
+    .form-group {
+      margin-bottom: 1.25rem;
     }
     
     label {
       display: block;
-      margin-bottom: 5px;
       font-weight: 500;
+      font-size: 0.875rem;
+      margin-bottom: 0.5rem;
+      color: var(--text-color);
     }
     
     input[type="text"],
     input[type="email"],
     textarea {
       width: 100%;
-      padding: 8px;
-      border: 1px solid #ddd;
-      border-radius: 4px;
-      font-size: 14px;
+      padding: 0.625rem;
+      border: 1px solid var(--border-color);
+      border-radius: var(--radius);
+      font-size: 0.875rem;
+      transition: var(--transition);
     }
     
-    .form-footer {
-      display: flex;
-      justify-content: flex-end;
-      gap: 10px;
-      margin-top: 20px;
+    input[type="text"]:focus,
+    input[type="email"]:focus,
+    textarea:focus {
+      outline: none;
+      border-color: var(--primary-color);
+      box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.2);
     }
     
-    .form-footer button {
-      margin-right: 0;
+    /* Event Log */
+    .event-log-container {
+      margin-top: 2rem;
+      border-top: 1px solid var(--border-color);
+      padding-top: 1.5rem;
     }
     
-    button.secondary {
-      background-color: #f0f0f0;
-      color: #333;
+    .event-log {
+      background-color: var(--bg-light);
+      padding: 1rem;
+      border-radius: var(--radius);
+      font-family: 'Courier New', monospace;
+      max-height: 200px;
+      overflow-y: auto;
+      font-size: 0.875rem;
+      line-height: 1.5;
+      border: 1px solid var(--border-color);
     }
     
-    button.secondary:hover {
-      background-color: #e0e0e0;
+    .event {
+      margin-bottom: 0.5rem;
+      padding-bottom: 0.5rem;
+      border-bottom: 1px dashed rgba(0,0,0,0.1);
     }
     
-    .feature-list {
-      margin: 30px 0;
-      padding-left: 20px;
+    .event:last-child {
+      margin-bottom: 0;
+      padding-bottom: 0;
+      border-bottom: none;
     }
     
-    .feature-list li {
-      margin-bottom: 8px;
+    .timestamp {
+      color: var(--primary-color);
+      font-weight: bold;
+    }
+    
+    .event-type {
+      color: var(--red);
+      font-weight: bold;
+    }
+    
+    .event-id {
+      color: var(--green);
     }
   </style>
 </head>
 <body>
-  <h1>Modal Manager Example</h1>
-  
-  <p>This example demonstrates the Modal Manager functionality with multiple modal types and behaviors.</p>
-  
-  <div class="button-group">
-    <button data-modal="simple-modal">Open Simple Modal</button>
-    <button data-modal="form-modal">Open Form Modal</button>
-    <button data-modal="nested-modal">Open Modal with Nested Dialog</button>
+  <div class="container">
+    <h1>Modal Manager Demo</h1>
+    
+    <p>This interactive demo showcases the Modal Manager functionality with multiple modal types and behaviors.</p>
+    
+    <div class="btn-group">
+      <button class="btn" data-modal="simple-modal">Simple Modal</button>
+      <button class="btn" data-modal="form-modal">Form Modal</button>
+      <button class="btn" data-modal="nested-modal">Nested Dialog</button>
+    </div>
+    
+    <h2>Key Features</h2>
+    <ul class="feature-list">
+      <li>Multiple ways to close modals (close button, outside click, ESC key)</li>
+      <li>Focus trapping for keyboard accessibility</li>
+      <li>Multiple stacked modals with proper z-index management</li>
+      <li>Modal events that you can listen to</li>
+      <li>Proper handling of form elements</li>
+    </ul>
   </div>
-  
-  <h2>Features Demonstrated</h2>
-  <ul class="feature-list">
-    <li>Multiple ways to close modals (close button, outside click, ESC key)</li>
-    <li>Focus trapping for keyboard accessibility</li>
-    <li>Multiple stacked modals with proper z-index management</li>
-    <li>Modal events that you can listen to</li>
-    <li>Proper handling of form elements</li>
-  </ul>
   
   <!-- Simple Modal -->
   <div id="simple-modal" class="modal-wrapper" aria-hidden="true">
     <div class="modal-content">
-      <span class="modal-close">&times;</span>
-      <h2>Simple Modal</h2>
-      <p>This is a basic modal example. You can close it by:</p>
-      <ul>
-        <li>Clicking the X button</li>
-        <li>Clicking outside the modal</li>
-        <li>Pressing the ESC key</li>
-      </ul>
-      <button class="modal-close">Close Modal</button>
+      <div class="modal-header">
+        <h2>Simple Modal</h2>
+        <button class="modal-close" aria-label="Close">×</button>
+      </div>
+      <div class="modal-body">
+        <p>This is a basic modal example. You can close it by:</p>
+        <ul class="feature-list">
+          <li>Clicking the X button</li>
+          <li>Clicking outside the modal</li>
+          <li>Pressing the ESC key</li>
+        </ul>
+      </div>
+      <div class="modal-footer">
+        <button class="btn secondary modal-close">Close</button>
+      </div>
     </div>
   </div>
   
   <!-- Form Modal -->
   <div id="form-modal" class="modal-wrapper" aria-hidden="true">
     <div class="modal-content">
-      <span class="modal-close">&times;</span>
-      <h2>Form Modal</h2>
-      <p>This modal contains a form with proper focus management.</p>
-      <form id="example-form">
-        <div>
-          <label for="name">Name:</label>
-          <input type="text" id="name">
-        </div>
-        <div>
-          <label for="email">Email:</label>
-          <input type="email" id="email">
-        </div>
-        <div>
-          <label for="message">Message:</label>
-          <textarea id="message" rows="4"></textarea>
-        </div>
-        <div class="form-footer">
-          <button type="button" class="secondary modal-close">Cancel</button>
-          <button type="submit">Submit</button>
-        </div>
-      </form>
+      <div class="modal-header">
+        <h2>Form Modal</h2>
+        <button class="modal-close" aria-label="Close">×</button>
+      </div>
+      <div class="modal-body">
+        <p>This modal contains a form with proper focus management.</p>
+        <form id="example-form">
+          <div class="form-group">
+            <label for="name">Full Name</label>
+            <input type="text" id="name" placeholder="Your name">
+          </div>
+          <div class="form-group">
+            <label for="email">Email Address</label>
+            <input type="email" id="email" placeholder="you@example.com">
+          </div>
+          <div class="form-group">
+            <label for="message">Message</label>
+            <textarea id="message" rows="4" placeholder="Type your message here..."></textarea>
+          </div>
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button class="btn secondary modal-close">Cancel</button>
+        <button class="btn" type="submit" form="example-form">Submit</button>
+      </div>
     </div>
   </div>
   
   <!-- Nested Modal -->
   <div id="nested-modal" class="modal-wrapper" aria-hidden="true">
     <div class="modal-content">
-      <span class="modal-close">&times;</span>
-      <h2>Modal with Nested Dialog</h2>
-      <p>This modal demonstrates how you can open another modal from within a modal.</p>
-      <p>The Modal Manager handles the stacking and focus order correctly.</p>
-      <button data-modal="confirmation-modal">Open Confirmation Dialog</button>
+      <div class="modal-header">
+        <h2>Modal with Nested Dialog</h2>
+        <button class="modal-close" aria-label="Close">×</button>
+      </div>
+      <div class="modal-body">
+        <p>This modal demonstrates how you can open another modal from within a modal.</p>
+        <p>The Modal Manager handles the stacking and focus order correctly.</p>
+      </div>
+      <div class="modal-footer">
+        <button class="btn secondary modal-close">Close</button>
+        <button class="btn" data-modal="confirmation-modal">Open Confirmation</button>
+      </div>
     </div>
   </div>
   
   <!-- Confirmation Modal (nested) -->
   <div id="confirmation-modal" class="modal-wrapper" aria-hidden="true">
     <div class="modal-content">
-      <span class="modal-close">&times;</span>
-      <h2>Confirmation</h2>
-      <p>This is a nested confirmation dialog.</p>
-      <p>When you close this dialog, focus will be properly restored to the parent modal.</p>
-      <div class="form-footer">
-        <button class="secondary modal-close">Cancel</button>
-        <button class="modal-close">Confirm</button>
+      <div class="modal-header">
+        <h2>Confirmation</h2>
+        <button class="modal-close" aria-label="Close">×</button>
+      </div>
+      <div class="modal-body">
+        <p>This is a nested confirmation dialog.</p>
+        <p>When you close this dialog, focus will be properly restored to the parent modal.</p>
+      </div>
+      <div class="modal-footer">
+        <button class="btn secondary modal-close">Cancel</button>
+        <button class="btn modal-close">Confirm</button>
       </div>
     </div>
   </div>
   
   <!-- Event Display Section -->
-  <div>
+  <div class="container event-log-container">
     <h2>Event Log</h2>
-    <pre id="event-log" style="background: #f5f5f5; padding: 10px; border-radius: 4px; max-height: 200px; overflow-y: auto;"></pre>
+    <div class="event-log" id="event-log"></div>
   </div>
   
   <script src="../src/modalManager.js"></script>
@@ -229,7 +418,20 @@
     
     function logEvent(message) {
       const timestamp = new Date().toLocaleTimeString();
-      eventLog.textContent = `${timestamp}: ${message}\n${eventLog.textContent}`;
+      const eventElement = document.createElement('div');
+      eventElement.className = 'event';
+      
+      if (message.includes('opened')) {
+        const parts = message.split('opened: ');
+        eventElement.innerHTML = `<span class="timestamp">${timestamp}</span>: Modal <span class="event-type">opened</span>: <span class="event-id">${parts[1]}</span>`;
+      } else if (message.includes('closed')) {
+        const parts = message.split('closed: ');
+        eventElement.innerHTML = `<span class="timestamp">${timestamp}</span>: Modal <span class="event-type">closed</span>: <span class="event-id">${parts[1]}</span>`;
+      } else {
+        eventElement.innerHTML = `<span class="timestamp">${timestamp}</span>: ${message}`;
+      }
+      
+      eventLog.insertBefore(eventElement, eventLog.firstChild);
     }
     
     document.addEventListener('modal:open', function(e) {
