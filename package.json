@@ -1,6 +1,6 @@
 {
     "name": "@dev-hero/modal-manager",
-    "version": "1.0.0",
+    "version": "1.0.1",
     "description": "A lightweight, accessible modal management system for web projects",
     "main": "src/modalManager.js",
     "scripts": {

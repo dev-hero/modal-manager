@@ -1,6 +1,5 @@
 /**
  * ModalManager - A comprehensive class to manage multiple modals
- * Works with any web project, including Webflow
  * 
  * Features:
  * - Manages z-index and stacking of multiple modals
@@ -8,11 +7,14 @@
  * - Provides methods for opening, closing, and querying modals
  * - Keyboard support (Escape to close)
  * - Proper event delegation
+ * - HubSpot form compatibility
  * 
  * Default selectors:
  * - Modal containers: .modal-wrapper
  * - Close buttons: .modal-close
  * - Trigger attribute: data-modal
+ * 
+ * Version: 1.0.1
  */
 class ModalManager {
     constructor(options = {}) {
@@ -32,7 +34,9 @@ class ModalManager {
       this.lastFocusedElement = null;
       
       // Bind methods to maintain 'this' context
-      this.handleClick = this.handleClick.bind(this);
+      this.handleCloseButtonMouseDown = this.handleCloseButtonMouseDown.bind(this);
+      this.handleTriggerClick = this.handleTriggerClick.bind(this);
+      this.handleBackgroundMouseDown = this.handleBackgroundMouseDown.bind(this);
       this.handleKeyDown = this.handleKeyDown.bind(this);
       
       // Initialize
@@ -40,8 +44,14 @@ class ModalManager {
     }
     
     init() {
-      // Use event delegation for all click events
-      document.addEventListener('click', this.handleClick);
+      // Use mousedown for close buttons (highest priority)
+      document.addEventListener('mousedown', this.handleCloseButtonMouseDown, true);
+      
+      // Use mousedown for background clicks (high priority)
+      document.addEventListener('mousedown', this.handleBackgroundMouseDown, true);
+      
+      // Use regular click for trigger buttons (normal priority)
+      document.addEventListener('click', this.handleTriggerClick);
       
       // Add keyboard support
       if (this.options.closeOnEscape) {
@@ -50,9 +60,75 @@ class ModalManager {
     }
     
     /**
-     * Handle all click events through delegation
+     * Handle close button interactions on mousedown
+     * This bypasses form validation completely
      */
-    handleClick(event) {
+    handleCloseButtonMouseDown(event) {
+      // Check if clicking on a close button
+      if (event.target.matches(this.options.closeButtonSelector) || 
+          event.target.closest(this.options.closeButtonSelector)) {
+          
+        // Find the parent modal
+        const modal = event.target.closest(this.options.modalSelector);
+        if (modal && modal.id && this.isOpen(modal.id)) {
+          // Stop all event propagation immediately
+          event.preventDefault();
+          event.stopPropagation();
+          
+          // Close modal immediately
+          this.close(modal.id);
+          
+          // Return false to prevent other handlers
+          return false;
+        }
+      }
+    }
+    
+    /**
+     * Direct background click detection using mousedown
+     * This approach bypasses form validation events completely
+     */
+    handleBackgroundMouseDown(event) {
+      if (!this.options.closeOnOutsideClick) return;
+      
+      // Check if clicking directly on modal background and not any child element
+      if (event.target.matches(this.options.modalSelector)) {
+        const modalId = event.target.id;
+        
+        // Store x/y coordinates of the click
+        const clickX = event.clientX;
+        const clickY = event.clientY;
+        
+        // Check that click is not on a child element
+        const isClickOnBackground = !Array.from(event.target.children).some(child => {
+          const rect = child.getBoundingClientRect();
+          return (
+            clickX >= rect.left &&
+            clickX <= rect.right &&
+            clickY >= rect.top &&
+            clickY <= rect.bottom
+          );
+        });
+        
+        if (isClickOnBackground && modalId && this.isOpen(modalId)) {
+          // Important: Prevent default and stop propagation immediately
+          event.preventDefault();
+          event.stopPropagation();
+          
+          // Close the modal immediately rather than waiting for click
+          // This approach bypasses form validation completely
+          this.close(modalId);
+          
+          // Return false to prevent other handlers
+          return false;
+        }
+      }
+    }
+    
+    /**
+     * Handle modal trigger clicks
+     */
+    handleTriggerClick(event) {
       const { target } = event;
       
       // Handle opening modals
@@ -66,26 +142,6 @@ class ModalManager {
         
         const modalId = trigger.getAttribute(this.options.modalTriggerAttribute);
         this.open(modalId);
-      }
-      
-      // Handle closing modals via close button
-      if (target.matches(this.options.closeButtonSelector) || 
-          target.closest(this.options.closeButtonSelector)) {
-        event.preventDefault();
-        const modal = target.closest(this.options.modalSelector);
-        if (modal) {
-          this.close(modal.id);
-        }
-      }
-      
-      // Handle closing modals via outside click
-      if (this.options.closeOnOutsideClick && 
-          target.matches(this.options.modalSelector) && 
-          target === event.currentTarget) {
-        const modalId = target.id;
-        if (modalId && this.isOpen(modalId)) {
-          this.close(modalId);
-        }
       }
     }
     
@@ -261,7 +317,9 @@ class ModalManager {
      * Clean up event listeners when no longer needed
      */
     destroy() {
-      document.removeEventListener('click', this.handleClick);
+      document.removeEventListener('mousedown', this.handleCloseButtonMouseDown, true);
+      document.removeEventListener('mousedown', this.handleBackgroundMouseDown, true);
+      document.removeEventListener('click', this.handleTriggerClick);
       document.removeEventListener('keydown', this.handleKeyDown);
       this.closeAll();
       this.openModals = [];
@@ -269,7 +327,6 @@ class ModalManager {
   }
   
   // Automatically initialize when included directly in a page
-  // This can be removed if you prefer to initialize manually
   (function() {
     // Check if we're in a browser environment
     if (typeof window === 'undefined') return;
@@ -287,3 +344,8 @@ class ModalManager {
       window.modalManager = new ModalManager();
     }
   })();
+  
+  // If using as a module (optional)
+  if (typeof module !== 'undefined' && typeof module.exports !== 'undefined') {
+    module.exports = ModalManager;
+  }

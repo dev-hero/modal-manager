@@ -25,7 +25,7 @@ Download the latest version from the [releases page](https://github.com/dev-hero
 ### CDN
 
 ```html
-<script src="https://cdn.jsdelivr.net/gh/dev-hero/modal-manager@1.0.0/dist/modalManager.min.js"></script>
+<script src="https://cdn.jsdelivr.net/gh/dev-hero/modal-manager@1.0.1/dist/modalManager.min.js"></script>
 ```
 
 ### NPM
@@ -249,6 +249,12 @@ Contributions are welcome! If you'd like to contribute:
 Please make sure to update tests as appropriate and follow the existing code style.
 
 ## Changelog
+
+### 1.0.1
+- Improved event handling for modal close buttons
+- Enhanced background click detection for better form compatibility
+- Added HubSpot form compatibility
+- Fixed issues with form validation when closing modals
 
 ### 1.0.0
 - Initial release
