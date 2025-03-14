@@ -1,0 +1,42 @@
+{
+    "name": "modal-manager",
+    "version": "1.0.0",
+    "description": "A lightweight, accessible modal management system for web projects",
+    "main": "src/modalManager.js",
+    "scripts": {
+      "build": "npm run build:clean && npm run build:js",
+      "build:clean": "rimraf dist",
+      "build:js": "terser src/modalManager.js -o dist/modalManager.min.js -c -m --comments '/^!/'",
+      "dev": "npm run build:js -- --watch",
+      "test": "echo \"Error: no test specified\" && exit 1"
+    },
+    "keywords": [
+      "modal",
+      "dialog",
+      "popup",
+      "accessibility",
+      "a11y",
+      "javascript",
+      "vanilla-js"
+    ],
+    "author": "",
+    "license": "MIT",
+    "devDependencies": {
+      "rimraf": "^3.0.2",
+      "terser": "^5.14.0"
+    },
+    "files": [
+      "dist",
+      "src",
+      "LICENSE",
+      "README.md"
+    ],
+    "repository": {
+      "type": "git",
+      "url": "git+https://github.com/dev-hero/modal-manager.git"
+    },
+    "bugs": {
+      "url": "https://github.com/dev-hero/modal-manager/issues"
+    },
+    "homepage": "https://github.com/dev-hero/modal-manager#readme"
+  }
