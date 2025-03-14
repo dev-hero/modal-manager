@@ -1,6 +1,6 @@
 /**
  * ModalManager - A comprehensive class to manage multiple modals
- * For use with Webflow projects
+ * Works with any web project, including Webflow
  * 
  * Features:
  * - Manages z-index and stacking of multiple modals

@@ -1,0 +1,20 @@
+# Dependencies
+node_modules/
+npm-debug.log
+yarn-error.log
+yarn-debug.log
+package-lock.json
+
+# Build files
+dist/
+
+# OS files
+.DS_Store
+Thumbs.db
+.directory
+
+# Editor directories and files
+.idea/
+.vscode/
+*.swp
+*.swo

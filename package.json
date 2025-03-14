@@ -1,5 +1,5 @@
 {
-    "name": "modal-manager",
+    "name": "@dev-hero/modal-manager",
     "version": "1.0.0",
     "description": "A lightweight, accessible modal management system for web projects",
     "main": "src/modalManager.js",
@@ -19,7 +19,7 @@
       "javascript",
       "vanilla-js"
     ],
-    "author": "",
+    "author": "Dev Hero <hi@dev-hero.com>",
     "license": "MIT",
     "devDependencies": {
       "rimraf": "^3.0.2",
@@ -29,7 +29,8 @@
       "dist",
       "src",
       "LICENSE",
-      "README.md"
+      "README.md",
+      "CHANGELOG.md"
     ],
     "repository": {
       "type": "git",

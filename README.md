@@ -34,14 +34,19 @@ Download the latest version from the [releases page](https://github.com/dev-hero
 npm install @dev-hero/modal-manager
 ```
 
-Then import it in your project:
+Then include it in your project:
+
+```html
+<script src="node_modules/@dev-hero/modal-manager/dist/modalManager.min.js"></script>
+```
+
+Or use a bundler to include it in your build:
 
 ```javascript
-// ES Module
-import ModalManager from '@dev-hero/modal-manager';
+// If using a bundler like webpack or rollup
+import '@dev-hero/modal-manager';
 
-// CommonJS
-const ModalManager = require('@dev-hero/modal-manager');
+// The ModalManager will be available as window.modalManager
 ```
 
 ## Basic Usage
@@ -216,12 +221,40 @@ npm run dev
 - Chrome, Firefox, Safari, Edge (latest versions)
 - IE11 not supported
 
+## Webflow Integration
+
+This library was originally designed for use with Webflow projects but works with any web project. When using with Webflow:
+
+1. Add the script to your project's custom code section in the page settings
+2. Follow the HTML structure guidelines for your modals
+3. Use Webflow's interactions to add additional animations if desired
+
 ## Troubleshooting
 
 - **Modals not opening**: Check that your modal IDs match the `data-modal` attribute values
 - **Close button not working**: Ensure it has the `.modal-close` class
 - **Click outside not closing**: Make sure your modal structure has the correct container element with `.modal-wrapper`
 - **Z-index issues**: Check if other elements on your page have higher z-index values
+
+## Contributing
+
+Contributions are welcome! If you'd like to contribute:
+
+1. Fork the repository
+2. Create a feature branch (`git checkout -b feature/amazing-feature`)
+3. Commit your changes (`git commit -m 'Add some amazing feature'`)
+4. Push to the branch (`git push origin feature/amazing-feature`)
+5. Open a Pull Request
+
+Please make sure to update tests as appropriate and follow the existing code style.
+
+## Changelog
+
+### 1.0.0
+- Initial release
+- Core modal management functionality
+- Accessibility features
+- Multiple modal support
 
 ## License
 
