@@ -14,7 +14,7 @@
  * - Close buttons: .modal-close
  * - Trigger attribute: data-modal
  * 
- * Version: 1.0.1
+ * Version: 1.0.2
  */
 class ModalManager {
     constructor(options = {}) {

@@ -1,6 +1,6 @@
 {
     "name": "@dev-hero/modal-manager",
-    "version": "1.0.1",
+    "version": "1.0.2",
     "description": "A lightweight, accessible modal management system for web projects",
     "main": "src/modalManager.js",
     "scripts": {
@@ -30,7 +30,8 @@
       "src",
       "LICENSE",
       "README.md",
-      "CHANGELOG.md"
+      "CHANGELOG.md",
+      "RELEASE_NOTES.md"
     ],
     "repository": {
       "type": "git",

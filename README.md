@@ -11,51 +11,72 @@ A lightweight, accessible modal management system for web projects.
 - 📱 **Mobile-Friendly** - Works on all devices and screen sizes
 - 🔌 **Easy Integration** - Works with simple HTML structure
 - 🪶 **Lightweight** - No dependencies, vanilla JavaScript
+- 🧩 **Form Compatible** - Works with HubSpot forms and other complex form elements
 
 ## Installation
 
-### Direct Download
+Modal Manager can be added to your project in several ways. Choose the method that best fits your workflow:
 
-Download the latest version from the [releases page](https://github.com/dev-hero/modal-manager/releases) and include it in your project:
+### Option 1: CDN (Simplest)
 
-```html
-<script src="path/to/modalManager.min.js"></script>
-```
-
-### CDN
+Add Modal Manager directly to your HTML using jsDelivr CDN:
 
 ```html
-<script src="https://cdn.jsdelivr.net/gh/dev-hero/modal-manager@1.0.1/dist/modalManager.min.js"></script>
+<!-- Latest version -->
+<script src="https://cdn.jsdelivr.net/npm/@dev-hero/modal-manager/dist/modalManager.min.js"></script>
+
+<!-- Specific version (recommended for production) -->
+<script src="https://cdn.jsdelivr.net/npm/@dev-hero/modal-manager@1.0.2/dist/modalManager.min.js"></script>
 ```
 
-### NPM
+This approach requires no build tools and works in any project. The script automatically initializes when loaded.
+
+### Option 2: npm for Build Systems
+
+If you use npm and a build system (webpack, Rollup, Vite, etc.):
+
+1. Install the package:
+   ```bash
+   npm install @dev-hero/modal-manager
+   ```
+
+2. Import it in your JavaScript:
+   ```javascript
+   // ES Module syntax
+   import ModalManager from '@dev-hero/modal-manager';
+   
+   // Create an instance with custom options (optional)
+   const modalManager = new ModalManager({
+     // Custom options here
+   });
+   ```
+
+This is the recommended approach for modern web applications. The `node_modules` folder should be added to your `.gitignore` file as per best practices.
+
+### Option 3: Direct Download
+
+1. Download the latest [`modalManager.min.js`](https://cdn.jsdelivr.net/npm/@dev-hero/modal-manager/dist/modalManager.min.js) file
+2. Include it in your project:
+   ```html
+   <script src="path/to/modalManager.min.js"></script>
+   ```
+
+### Option 4: Git Submodule (Advanced)
+
+For projects that need to track the library source code:
 
 ```bash
-npm install @dev-hero/modal-manager
+git submodule add https://github.com/yourusername/modal-manager.git vendor/modal-manager
 ```
 
-Then include it in your project:
-
+Then reference it in your HTML:
 ```html
-<script src="node_modules/@dev-hero/modal-manager/dist/modalManager.min.js"></script>
-```
-
-Or use a bundler to include it in your build:
-
-```javascript
-// If using a bundler like webpack or rollup
-import '@dev-hero/modal-manager';
-
-// The ModalManager will be available as window.modalManager
+<script src="vendor/modal-manager/dist/modalManager.min.js"></script>
 ```
 
 ## Basic Usage
 
-1. Include the script in your HTML:
-
-```html
-<script src="path/to/modalManager.min.js"></script>
-```
+1. Include the script in your HTML using one of the installation methods above.
 
 2. Create your modal HTML structure:
 
@@ -66,7 +87,7 @@ import '@dev-hero/modal-manager';
 <!-- Modal Structure -->
 <div id="my-modal" class="modal-wrapper">
   <div class="modal-content">
-    <span class="modal-close">&times;</span>
+    <button class="modal-close" aria-label="Close">×</button>
     <h2>Modal Title</h2>
     <p>Modal content goes here...</p>
     <button class="modal-close">Close</button>
@@ -95,6 +116,7 @@ import '@dev-hero/modal-manager';
   padding: 20px;
   width: 80%;
   max-width: 600px;
+  border-radius: 4px;
 }
 
 .modal-close {
@@ -186,13 +208,51 @@ document.addEventListener('DOMContentLoaded', function() {
 });
 ```
 
+## Using with Build Tools
+
+### Webpack/Rollup/Vite
+
+When using build tools, you can import the module:
+
+```javascript
+import ModalManager from '@dev-hero/modal-manager';
+
+// Initialize with options
+const modalManager = new ModalManager({
+  closeOnEscape: true,
+  modalSelector: '.my-custom-modal-class',
+  // Additional options...
+});
+```
+
+### Browserify/CommonJS
+
+For CommonJS environments:
+
+```javascript
+const ModalManager = require('@dev-hero/modal-manager');
+
+// Initialize as needed
+const modalManager = new ModalManager();
+```
+
+## HubSpot Form Compatibility
+
+Modal Manager is designed to work seamlessly with HubSpot forms:
+
+- Close buttons work properly without triggering form validation
+- Background clicks bypass form validation events
+- Focus management is preserved even with complex forms
+
+No additional configuration is needed for HubSpot compatibility.
+
 ## Building from Source
 
 To build the project from source:
 
 1. Clone the repository
    ```bash
-   git clone https://github.com/dev-hero/modal-manager.git
+   git clone https://github.com/yourusername/modal-manager.git
    cd modal-manager
    ```
 
@@ -221,44 +281,31 @@ npm run dev
 - Chrome, Firefox, Safari, Edge (latest versions)
 - IE11 not supported
 
-## Webflow Integration
-
-This library was originally designed for use with Webflow projects but works with any web project. When using with Webflow:
-
-1. Add the script to your project's custom code section in the page settings
-2. Follow the HTML structure guidelines for your modals
-3. Use Webflow's interactions to add additional animations if desired
-
 ## Troubleshooting
 
 - **Modals not opening**: Check that your modal IDs match the `data-modal` attribute values
 - **Close button not working**: Ensure it has the `.modal-close` class
 - **Click outside not closing**: Make sure your modal structure has the correct container element with `.modal-wrapper`
 - **Z-index issues**: Check if other elements on your page have higher z-index values
-
-## Contributing
-
-Contributions are welcome! If you'd like to contribute:
-
-1. Fork the repository
-2. Create a feature branch (`git checkout -b feature/amazing-feature`)
-3. Commit your changes (`git commit -m 'Add some amazing feature'`)
-4. Push to the branch (`git push origin feature/amazing-feature`)
-5. Open a Pull Request
-
-Please make sure to update tests as appropriate and follow the existing code style.
+- **Forms preventing modal close**: Update to the latest version (1.0.2+) which has improved form compatibility
 
 ## Changelog
 
-### 1.0.1
+### v1.0.2
+- Full HubSpot form compatibility
+- Improved close button behavior for better form interaction
+- Enhanced background click detection algorithm
+- Fixed compatibility issues with form validation
+- Expanded documentation with more installation options
+
+### v1.0.1
 - Improved event handling for modal close buttons
 - Enhanced background click detection for better form compatibility
-- Added HubSpot form compatibility
+- Added initial HubSpot form compatibility
 - Fixed issues with form validation when closing modals
 
-### 1.0.0
-- Initial release
-- Core modal management functionality
+### v1.0.0
+- Initial release with core modal functionality
 - Accessibility features
 - Multiple modal support
 
