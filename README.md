@@ -26,7 +26,7 @@ Add Modal Manager directly to your HTML using jsDelivr CDN:
 <script src="https://cdn.jsdelivr.net/npm/@dev-hero/modal-manager/dist/modalManager.min.js"></script>
 
 <!-- Specific version (recommended for production) -->
-<script src="https://cdn.jsdelivr.net/npm/@dev-hero/modal-manager@1.0.2/dist/modalManager.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@dev-hero/modal-manager@1.0.3/dist/modalManager.min.js"></script>
 ```
 
 This approach requires no build tools and works in any project. The script automatically initializes when loaded.
@@ -135,6 +135,8 @@ That's it! The Modal Manager automatically initializes when the page loads and h
 - **Modal Container**: Must have the class `.modal-wrapper` and a unique ID
 - **Modal Trigger**: Any element with the attribute `data-modal="modal-id"` where "modal-id" matches the ID of the modal to open
 - **Close Button**: Elements with the class `.modal-close` will close the parent modal when clicked
+
+**Note**: Elements with an empty `data-modal` attribute (e.g., `data-modal=""`) will behave normally without triggering modal functionality. This allows you to use the attribute as a styling hook without affecting functionality.
 
 ## JavaScript API
 

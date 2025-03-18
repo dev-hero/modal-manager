@@ -14,7 +14,7 @@
  * - Close buttons: .modal-close
  * - Trigger attribute: data-modal
  * 
- * Version: 1.0.2
+ * Version: 1.0.3
  */
 class ModalManager {
     constructor(options = {}) {
@@ -134,14 +134,19 @@ class ModalManager {
       // Handle opening modals
       if (target.hasAttribute(this.options.modalTriggerAttribute) || 
           target.closest(`[${this.options.modalTriggerAttribute}]`)) {
-        event.preventDefault();
         
         const trigger = target.hasAttribute(this.options.modalTriggerAttribute) ? 
                        target : 
                        target.closest(`[${this.options.modalTriggerAttribute}]`);
         
         const modalId = trigger.getAttribute(this.options.modalTriggerAttribute);
-        this.open(modalId);
+        
+        // Only prevent default and open modal if modalId has a value
+        if (modalId && modalId.trim() !== '') {
+          event.preventDefault();
+          this.open(modalId);
+        }
+        // Otherwise, let the default action happen (like following a link)
       }
     }
     
